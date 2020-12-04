@@ -11,7 +11,7 @@
 		 
 		 $story_qry="SELECT * FROM tbl_story_detail WHERE tbl_story_detail.story_title like '%".addslashes($_POST['story_title'])."%' ORDER BY tbl_story_detail.story_id DESC"; 
 							 
-		$story_result=mysql_query($story_qry);
+		$story_result=mysqli_query($con, $story_qry);
 		 
 	 }
 	 else
@@ -22,13 +22,13 @@
 							$limit = 15; 
 							
 							$query = "SELECT COUNT(*) as num FROM $tableName";
-							$total_pages = mysql_fetch_array(mysql_query($query));
+							$total_pages = mysqli_fetch_array(mysqli_query($con, $query));
 							$total_pages = $total_pages['num'];
 							
 							$stages = 3;
 							$page=0;
 							if(isset($_GET['page'])){
-							$page = mysql_escape_string($_GET['page']);
+							$page = mysqli_escape_string($_GET['page']);
 							}
 							if($page){
 								$start = ($page - 1) * $limit; 
@@ -41,14 +41,14 @@
 							LEFT JOIN tbl_category ON tbl_story_detail.category_id= tbl_category.cid 
 						 ORDER BY tbl_story_detail.story_id DESC LIMIT $start, $limit"; 
 							 
-							$story_result=mysql_query($story_qry);
+							$story_result=mysqli_query($con, $story_qry);
 							
 	 }
 	if(isset($_GET['story_id']))
 	{
 		 
-		$img_res=mysql_query('SELECT * FROM tbl_story_detail WHERE story_id=\''.$_GET['story_id'].'\'');
-		$img_row=mysql_fetch_assoc($img_res);
+		$img_res=mysqli_query($con, 'SELECT * FROM tbl_story_detail WHERE story_id=\''.$_GET['story_id'].'\'');
+		$img_row=mysqli_fetch_assoc($img_res);
 			
 			if($img_row['story_image']!="")
 			{
@@ -124,7 +124,7 @@
       <tbody>
         <?php 
 					$i=1;
-					while($story_row=mysql_fetch_array($story_result))
+					while($story_row=mysqli_fetch_array($story_result))
 					{
 				?>
         

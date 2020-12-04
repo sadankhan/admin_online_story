@@ -1,37 +1,36 @@
 <?php error_reporting(0);
-/**
- * Copyright 2014 Viaviweb.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may obtain
- * a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations
- * under the License.
- */
-
+include('db_connection.php');
 
 #Admin Login
-function adminUser($username, $password){
+function adminUser($username, $password) {
      
-    $sql = "SELECT id, username FROM admin where username = '".$username."' and password = '".md5($password)."'";
-     
-	$result = mysql_query($sql);
-    $num_rows = mysql_num_rows($result);
-    if ($num_rows > 0){
-        while ($row = mysql_fetch_array($result)){
-            $_SESSION['ADMIN_ID'] = $row['id'];
-						$_SESSION['ADMIN_USERNAME'] = $row['username'];
-             
-        return true; 
-        }
-    }
-    
+    $servername = "localhost";
+    $db_username = "root";
+    $db_password = "";
+    $dbname = "story_db";
+
+try {
+  $conn = new PDO("mysqli:host=$servername;dbname=$dbname", $db_username, $db_password);
+  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  $sql = "SELECT id, username FROM admin where username = '".$username."' AND password = '".$password."'";
+  $stmt = $conn->prepare($sql);
+  $stmt->execute();
+
+  // set the resulting array to associative
+  $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+  foreach($stmt->fetchAll() as $k=>$v) {
+    $_SESSION['ADMIN_USERNAME'] = $v['username'];
+    $_SESSION['ADMIN_ID'] = $v['id'];
+   
+
+  }
+}
+catch(PDOException $e) {
+  echo "Error: " . $e->getMessage();
+}
+$conn = null;
+
+return 5;   
 }
 
 
@@ -39,8 +38,8 @@ function adminUser($username, $password){
 function Insert($table, $data){
 
     $fields = array_keys( $data );  
-    $values = array_map( "mysql_real_escape_string", array_values( $data ) );
-    mysql_query( "INSERT INTO $table(".implode(",",$fields).") VALUES ('".implode("','", $values )."');") or die( mysql_error() );
+    $values = array_map( "mysqli_real_escape_string", array_values( $data ) );
+    mysqli_query($con, "INSERT INTO $table(".implode(",",$fields).") VALUES ('".implode("','", $values )."');") or die( mysqli_error() );
 
 }
 
@@ -78,7 +77,7 @@ function Update($table_name, $form_data, $where_clause='')
     $sql .= $whereSQL;
  		 
     // run and return the query result
-    return mysql_query($sql);
+    return mysqli_query($con, $sql);
 }
 
 
@@ -104,7 +103,7 @@ function Delete($table_name, $where_clause='')
     $sql = "DELETE FROM ".$table_name.$whereSQL;
 	 
     // run and return the query result resource
-    return mysql_query($sql);
+    return mysqli_query($con, $sql);
 }
 
 //Select Data, Function(table,column_name,identifier)
@@ -112,7 +111,7 @@ function Single($table,$tcol,$tid)
 {
      
     /*Query and link identifier were in the wrong order*/
-    return mysql_query("SELECT * FROM ".$table." WHERE ".$tcol."=".$tid."");
+    return mysqli_query($con, "SELECT * FROM ".$table." WHERE ".$tcol."=".$tid."");
 }
  
 

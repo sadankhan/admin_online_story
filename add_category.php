@@ -1,6 +1,6 @@
 <?php include('includes/header.php');?>
     
-
+<?php include('includes/db_connection.php');?>
 <?php include('includes/menu.php');?>
 
 <?php 
@@ -47,8 +47,8 @@
 	{
 			 
 			$category_qry="SELECT * FROM tbl_category where cid='".$_GET['category_id']."'";
-			$category_result=mysql_query($category_qry);
-			$category_row=mysql_fetch_assoc($category_result);
+			$category_result=mysqli_query($con, $category_qry);
+			$category_row=mysqli_fetch_assoc($category_result);
 		
 	}
 	
@@ -56,8 +56,8 @@
 	{
 		if($_FILES['category_image']['name']!=""){
 		
-			$img_res=mysql_query('SELECT * FROM tbl_category WHERE cid=\''.$_POST['category_id'].'\'');
-		$img_row=mysql_fetch_assoc($img_res);
+			$img_res=mysqli_query('SELECT * FROM tbl_category WHERE cid=\''.$_POST['category_id'].'\'');
+		$img_row=mysqli_fetch_assoc($img_res);
 			
 			if($img_row['category_image']!="")
 			{

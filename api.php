@@ -16,14 +16,14 @@ if(isset($_GET['cat_id']))
 	$query="SELECT cid,category_name,category_image FROM tbl_category ORDER BY tbl_category.cid DESC";
 	}
 	
-	$resouter = mysql_query($query);
+	$resouter = mysqli_query($con, $query);
      
     $set = array();
      
-    $total_records = mysql_num_rows($resouter);
+    $total_records = mysqli_num_rows($resouter);
     if($total_records >= 1){
      
-      while ($link = mysql_fetch_array($resouter, MYSQL_ASSOC)){
+      while ($link = mysqli_fetch_array($resouter, mysqli_ASSOC)){
 	   
         $set['Online Story App'][] = $link;
       }

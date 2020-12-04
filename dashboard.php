@@ -2,19 +2,22 @@
     
 
 <?php include('includes/menu.php');?>
+
   <?php 
-						
-						$qry_story="SELECT COUNT(*) as num FROM tbl_story_detail";
-						$total_story= mysql_fetch_array(mysql_query($qry_story));
-						$total_story = $total_story['num'];
-						
-						$qry_cat="SELECT COUNT(*) as num FROM tbl_category";
-						$total_cat= mysql_fetch_array(mysql_query($qry_cat));
-						$total_cat = $total_cat['num'];
-						
-						
-					
-					?>	
+   
+
+$qry_story="SELECT COUNT(*) as num FROM tbl_story_detail";
+$qry_cat   ="SELECT COUNT(*) as num FROM tbl_category";
+
+$total_story= mysqli_fetch_array(mysqli_query($con,$qry_story));
+$total_story = $total_story['num'];
+
+$total_cat = mysqli_fetch_array(mysqli_query($con,$qry_cat));
+$total_cat = $total_cat['num'];
+
+
+//mysqli_close($con);
+?>	
 
     <div class="content">
         

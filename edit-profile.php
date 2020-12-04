@@ -1,5 +1,6 @@
+
 <?php include('includes/header.php');?>
-    
+ 
 
 <?php include('includes/menu.php');?>
 
@@ -9,7 +10,7 @@
  
 	
 	$result= Single('admin','id',$_SESSION['ADMIN_ID']);
-	$row=mysql_fetch_assoc($result);
+	$row=mysqli_fetch_assoc($result);
 	
 	if(isset($_POST['submit']))
 	{
@@ -18,7 +19,7 @@
 			if($_POST['password'])
 			{
 				$data = array(
-					'password'  =>  md5($_POST['password'])     
+					'password'  =>  $_POST['password']    
 				);	
 				
 			}

@@ -1,5 +1,6 @@
+<?php include('includes/db_connection.php'); ?> 
 <?php include('includes/header.php');?>
-    
+
 
 <?php include('includes/menu.php');?>
 
@@ -9,7 +10,7 @@
  	require_once("thumbnail_images.class.php");
 	
 	$qry="select * from tbl_category";
-	$res=mysql_query($qry);
+	$res=mysqli_query($con, $qry);
 	 
 	if(isset($_POST['submit']) and isset($_GET['add']))
 	{
@@ -52,8 +53,8 @@
 	{
 			 
 			$story_qry="SELECT * FROM tbl_story_detail where story_id='".$_GET['story_id']."'";
-			$story_result=mysql_query($story_qry);
-			$story_row=mysql_fetch_assoc($story_result);
+			$story_result=mysqli_query($story_qry);
+			$story_row=mysqli_fetch_assoc($story_result);
 		
 	}
 	if(isset($_POST['submit']) and isset($_POST['story_id']))
@@ -61,8 +62,8 @@
 		if($_FILES['story_image']['name']!="")
 		{
 		
-		$img_res=mysql_query('SELECT * FROM tbl_story_detail WHERE story_id=\''.$_POST['story_id'].'\'');
-		$img_row=mysql_fetch_assoc($img_res);
+		$img_res=mysqli_query('SELECT * FROM tbl_story_detail WHERE story_id=\''.$_POST['story_id'].'\'');
+		$img_row=mysqli_fetch_assoc($img_res);
 			
 			if($img_row['story_image']!="")
 			{
@@ -219,7 +220,7 @@
 									<select name="category_id" id="category_id" style="width:280px; height:25px;">
 			
 										<option value="">--Select Category--</option>
-										 <?php while($cat_row=mysql_fetch_array($res)){?>
+										 <?php while($cat_row=mysqli_fetch_array($res)){?>
           <option value="<?php echo $cat_row['cid'];?>" <?php if($cat_row['cid']==$story_row['category_id']){?>selected<?php }?>><?php echo $cat_row['category_name'];?></option>
           <?php }?>
 									</select>

@@ -1,6 +1,3 @@
-<?php 
-include('includes/db_connection.php');
-include('language/language.php');?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -74,15 +71,16 @@ include('language/language.php');?>
             <p class="block-heading">Sign In</p>
             <div class="block-body">
             	<p style="color:#990000; font-size:14px;" align="center">
-					<?php if(isset($_SESSION['msg'])){ 
+					<?php 
+                    if(isset($_SESSION['msg'])){ 
 					
 							echo $admin_lang[$_SESSION['msg']] ; 
-							unset($_SESSION['msg']);		
+							unset($_SESSION['msg']);	}
 							
-					}?>
+					?>
                     
                     </p>
-                <form action="login_db" method="post">
+                <form action="login_db.php" method="post">
                     <label>Username</label>
                     <input type="text" name="username" id="username" class="span12">
                     <label>Password</label>
@@ -94,7 +92,7 @@ include('language/language.php');?>
                 </form>
             </div>
         </div>
-        <p class="pull-right" style=""><a href="http://www.viaviweb.com" target="blank">Theme by viaviweb.com</a></p>
+        
         <p><a href="reset-password">Forgot your password?</a></p>
     </div>
 </div>

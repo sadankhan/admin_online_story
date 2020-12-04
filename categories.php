@@ -1,5 +1,6 @@
 <?php include('includes/header.php');?>
-    
+<?php //include('dashboard.php');?>
+ 
 
 <?php include('includes/menu.php');?>
 
@@ -11,7 +12,7 @@
 		 
 		 $category_qry="SELECT * FROM tbl_category WHERE tbl_category.category_name like '%".addslashes($_POST['category_name'])."%' ORDER BY tbl_category.cid DESC"; 
 							 
-		$category_result=mysql_query($category_qry);
+		$category_result=mysqli_query($con, $category_qry);
 		 
 	 }
 	 else
@@ -22,13 +23,13 @@
 							$limit = 15; 
 							
 							$query = "SELECT COUNT(*) as num FROM $tableName";
-							$total_pages = mysql_fetch_array(mysql_query($query));
+							$total_pages = mysqli_fetch_array(mysqli_query($con, $query));
 							$total_pages = $total_pages['num'];
 							
 							$stages = 3;
 							$page=0;
 							if(isset($_GET['page'])){
-							$page = mysql_escape_string($_GET['page']);
+							$page = mysqli_escape_string($_GET['page']);
 							}
 							if($page){
 								$start = ($page - 1) * $limit; 
@@ -40,14 +41,14 @@
 							$category_qry="SELECT * FROM tbl_category
 						 ORDER BY tbl_category.cid DESC LIMIT $start, $limit"; 
 							 
-							$category_result=mysql_query($category_qry);
+							$category_result=mysqli_query($con, $category_qry);
 							
 	 }
 	if(isset($_GET['category_id']))
 	{
 
-		$img_story=mysql_query('SELECT * FROM tbl_story_detail WHERE category_id=\''.$_GET['category_id'].'\'');
-		$img_story_row=mysql_fetch_assoc($img_story);
+		$img_story=mysqli_query($con, 'SELECT * FROM tbl_story_detail WHERE category_id=\''.$_GET['category_id'].'\'');
+		$img_story_row=mysqli_fetch_assoc($img_story);
 		
 		 if($img_story_row['story_image']!="")
 			{
@@ -58,8 +59,8 @@
 				 
 		Delete('tbl_story_detail','category_id='.$_GET['category_id'].'');	
 		
-		$img_res=mysql_query('SELECT * FROM tbl_category WHERE cid=\''.$_GET['category_id'].'\'');
-		$img_row=mysql_fetch_assoc($img_res);
+		$img_res=mysqli_query($con,'SELECT * FROM tbl_category WHERE cid=\''.$_GET['category_id'].'\'');
+		$img_row=mysqli_fetch_assoc($img_res);
 			
 			if($img_row['category_image']!="")
 			{
@@ -135,7 +136,7 @@
       <tbody>
         <?php 
 					$i=1;
-					while($category_row=mysql_fetch_array($category_result))
+					while($category_row=mysqli_fetch_array($category_result))
 					{
 				?>
         
